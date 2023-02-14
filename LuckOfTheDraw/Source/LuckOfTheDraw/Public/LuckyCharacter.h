@@ -3,6 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Camera/CameraComponent.h"
+#include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/Character.h"
 #include "LuckyCharacter.generated.h"
 
@@ -18,32 +20,42 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
 	float mHealth = 20;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
-	float mSpeed = 20;
+	float mSpeed = 250;
+
+	UPROPERTY(VisibleAnywhere) UStaticMeshComponent* UMesh;
+	UPROPERTY(VisibleAnywhere) UStaticMeshComponent* UGunMesh;
+	UPROPERTY(VisibleAnywhere) UCameraComponent* UCamera;
+	UPROPERTY(VisibleAnywhere) USpringArmComponent* UCamBoom;
 
 protected:
-	// Called when the game starts or when spawned
+	//Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
+	//Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	// Called to bind functionality to input
+	//Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 
 private:
 	float mDeltaTime = 0.0167;
 
-	void MoveForward(float value);
-	void MoveRight(float value);
-	void LookAtTarget();
-
+	//incel functions for harry
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
 	void Shoot();
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
 	void Reload();
 	UFUNCTION(BlueprintCallable, Category = "Character")
-	void Dash();
+	void SpecialAction();
+
+	//gigachad functions harry will never see hahahahaha
+	void MoveForward(float value);
+	void MoveRight(float value);
+	void LookAtCursor();
+	void InitMesh();
+	void InitCamera();
+	
 
 };
