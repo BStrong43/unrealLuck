@@ -22,22 +22,33 @@ void ALuckyProjectile::BeginPlay()
 void ALuckyProjectile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	doPath(DeltaTime);
 
+	timeAlive += DeltaTime;
+	if (timeAlive >= maxLifeTime) Destroy();
+}
+
+void ALuckyProjectile::doPath(float DeltaTime)
+{
+	FVector loc = GetActorLocation();
+	FVector dist = GetActorForwardVector() * (mSpeed * DeltaTime);
+	SetActorLocation(loc + dist);
 }
 
 void ALuckyProjectile::Init()
 {
 	USphere = CreateDefaultSubobject<USphereComponent>(TEXT("Ball"));
 	RootComponent = USphere;
+	USphere->SetRelativeScale3D(FVector::OneVector * 0.4);
 
 	UMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	UMesh-> SetupAttachment(RootComponent);
 
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> Mesh(TEXT("/Game/Meshes/Shapes/Shape_NarrowCapsule.Shape_NarrowCapsule"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> Mesh(TEXT("/Game/Meshes/Shapes/Shape_Sphere.Shape_Sphere"));
 	if (Mesh.Succeeded())
 	{
 		UMesh->SetStaticMesh(Mesh.Object);
-		UMesh->SetRelativeLocation(FVector(0.0, 0.0, -90.0));
-		UMesh->SetRelativeScale3D(FVector::OneVector * .1);
+		UMesh->SetRelativeLocation(FVector(0.0, 0.0, -50.0));
+		UMesh->SetRelativeScale3D(FVector::OneVector);
 	}
 }

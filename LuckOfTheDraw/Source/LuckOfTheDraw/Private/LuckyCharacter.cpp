@@ -64,7 +64,13 @@ void ALuckyCharacter::InitGun()
 
 	UGunBarrel = CreateDefaultSubobject<USceneComponent>(TEXT("Barrel"));
 	UGunBarrel-> SetupAttachment(UGunMesh);
-	UGunBarrel-> SetRelativeLocation(FVector(0.0, -50.0, 12.5));
+	UGunBarrel-> SetRelativeLocation(FVector(0.0, 60.0, 12.5));
+}
+
+void ALuckyCharacter::InitCursor() 
+{
+	//MAKE CURSOR OBJECT
+
 }
 
 // Called every frame
@@ -121,7 +127,13 @@ void ALuckyCharacter::SpecialAction()
 
 void ALuckyCharacter::Shoot() 
 {
-	//Bang bang
+	FActorSpawnParameters spawnParameters = FActorSpawnParameters();
+	spawnParameters.Instigator = this;
+	spawnParameters.Owner = NULL;
+	
+	mProj = GetWorld()->SpawnActor<ALuckyProjectile>(ALuckyProjectile::StaticClass(), spawnParameters);
+	mProj->SetActorLocationAndRotation(UGunBarrel->GetComponentLocation(), GetActorRotation());
+
 }
 
 void ALuckyCharacter::Reload()

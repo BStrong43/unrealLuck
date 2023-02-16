@@ -7,6 +7,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/Character.h"
 #include "LuckyCursor.h"
+#include "LuckyProjectile.h"
 #include "LuckyMagazine.h"
 #include "LuckyCharacter.generated.h"
 
@@ -32,6 +33,9 @@ public:
 	UPROPERTY(VisibleAnywhere) USceneComponent* UGunBarrel;
 	UPROPERTY(VisibleAnywhere) UCameraComponent* UCamera;
 	UPROPERTY(VisibleAnywhere) USpringArmComponent* UCamBoom;
+
+	ALuckyCursor* mCursor;
+	ALuckyProjectile* mProj;
 
 	/* TODO: Figure out Enhanced Input
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
@@ -69,5 +73,6 @@ private:
 	void InitMesh();
 	void InitCamera();
 	void InitGun();
+	void InitCursor();
 
 };
