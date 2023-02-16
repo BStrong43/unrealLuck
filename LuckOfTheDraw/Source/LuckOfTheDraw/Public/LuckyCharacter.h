@@ -6,7 +6,12 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/Character.h"
+#include "LuckyCursor.h"
+#include "LuckyMagazine.h"
 #include "LuckyCharacter.generated.h"
+
+class UInputMappingContext;
+class UInputAction;
 
 UCLASS()
 class LUCKOFTHEDRAW_API ALuckyCharacter : public ACharacter
@@ -24,9 +29,16 @@ public:
 
 	UPROPERTY(VisibleAnywhere) UStaticMeshComponent* UMesh;
 	UPROPERTY(VisibleAnywhere) UStaticMeshComponent* UGunMesh;
+	UPROPERTY(VisibleAnywhere) USceneComponent* UGunBarrel;
 	UPROPERTY(VisibleAnywhere) UCameraComponent* UCamera;
 	UPROPERTY(VisibleAnywhere) USpringArmComponent* UCamBoom;
 
+	/* TODO: Figure out Enhanced Input
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
+	UInputMappingContext* ActionContext;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
+	UInputAction* MoveAction;
+	*/
 protected:
 	//Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -42,7 +54,7 @@ public:
 private:
 	float mDeltaTime = 0.0167;
 
-	//incel functions for harry
+	//virgin blueprint functions for harry
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
 	void Shoot();
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
@@ -56,6 +68,6 @@ private:
 	void LookAtCursor();
 	void InitMesh();
 	void InitCamera();
-	
+	void InitGun();
 
 };
