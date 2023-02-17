@@ -49,6 +49,6 @@ void ALuckyProjectile::Init()
 	{
 		UMesh->SetStaticMesh(Mesh.Object);
 		UMesh->SetRelativeLocation(FVector(0.0, 0.0, -50.0));
-		UMesh->SetRelativeScale3D(FVector::OneVector);
+		UMesh->SetRelativeScale3D(FVector::OneVector * 0.45);
 	}
 }

@@ -6,6 +6,10 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/Character.h"
+#include "InputMappingContext.h"
+#include "EnhancedInputComponent.h"
+#include "EnhancedInputSubsystems.h"
+#include "InputActionValue.h"
 #include "LuckyCursor.h"
 #include "LuckyProjectile.h"
 #include "LuckyMagazine.h"
@@ -27,52 +31,73 @@ public:
 	float mHealth = 20;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
 	float mSpeed = 250;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
+	float mCursorSensitivity = 1000;
 
 	UPROPERTY(VisibleAnywhere) UStaticMeshComponent* UMesh;
 	UPROPERTY(VisibleAnywhere) UStaticMeshComponent* UGunMesh;
 	UPROPERTY(VisibleAnywhere) USceneComponent* UGunBarrel;
 	UPROPERTY(VisibleAnywhere) UCameraComponent* UCamera;
 	UPROPERTY(VisibleAnywhere) USpringArmComponent* UCamBoom;
+	UPROPERTY(VisibleAnywhere) ULuckyMagazine* UMag;
 
-	ALuckyCursor* mCursor;
-	ALuckyProjectile* mProj;
-
-	/* TODO: Figure out Enhanced Input
+	//TODO: Figure out Enhanced Input
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
+	bool mUseBPMovement = false;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
-	UInputMappingContext* ActionContext;
+	UInputMappingContext* MappingContext;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
 	UInputAction* MoveAction;
-	*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
+	UInputAction* LookAction;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
+	UInputAction* ShootAction;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
+	UInputAction* AltFireAction;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
+	UInputAction* ReloadAction;
+
+
 protected:
 	//Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	virtual void PawnClientRestart() override;
+	ALuckyCursor* mCursor;
+	ALuckyProjectile* mProj;
 
 public:	
-	//Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	//Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
+	
 
 private:
 	float mDeltaTime = 0.0167;
+	float mCursorHeight = 50;
 
 	//virgin blueprint functions for harry
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
-	void Shoot();
+	void OnHandleShoot(const FInputActionValue& value);
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
-	void Reload();
+	void OnHandleReload(const FInputActionValue& value);
+	UFUNCTION(BlueprintCallable, Category = "Weapon")
+	void OnHandleAltFire(const FInputActionValue& value);
 	UFUNCTION(BlueprintCallable, Category = "Character")
-	void SpecialAction();
-
+	void OnHandleMove(const FInputActionValue& value);
+	UFUNCTION(BlueprintCallable, Category = "Character")
+	void OnHandleLook(const FInputActionValue& value);
+	
 	//gigachad functions harry will never see hahahahaha
 	void MoveForward(float value);
 	void MoveRight(float value);
+	void CursorX(float value);
+	void CursorY(float value);
+	void CursorXY(FVector value);
+	void Fire();
+	void AltFire();
+	void Reload();
 	void LookAtCursor();
 	void InitMesh();
 	void InitCamera();
 	void InitGun();
 	void InitCursor();
-
 };

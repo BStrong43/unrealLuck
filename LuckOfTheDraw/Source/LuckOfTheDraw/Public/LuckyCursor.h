@@ -25,4 +25,13 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	void MoveX(float value);
+	void MoveY(float value);
+	void Move(FVector value);
+
+private:
+	void TrackToMouse();
+
+	float mBoundingBoxDiameter = 1000;
+
 };

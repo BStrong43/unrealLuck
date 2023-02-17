@@ -28,7 +28,9 @@ void ULuckyMagazine::BeginPlay()
 void ULuckyMagazine::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
 }
 
+void ULuckyMagazine::Reload()
+{
+	barrelIndex = 0;
+}
