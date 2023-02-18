@@ -11,11 +11,8 @@ ALuckyCharacter::ALuckyCharacter()
 	InitMesh();
 	InitCamera();
 	InitGun();
-
-	mCursorHeight = GetActorLocation().Z;
-	
+	mCursorHeight = 88;
 	UMag = CreateDefaultSubobject<ULuckyMagazine>(TEXT("Magazine"));
-	
 }
 
 // Called when the game starts or when spawned
@@ -90,8 +87,8 @@ void ALuckyCharacter::InitCursor()
 	mCursor->SetActorLocation(loc);
 	mCursor->SetActorEnableCollision(false);
 
-	FAttachmentTransformRules rules = FAttachmentTransformRules(EAttachmentRule::KeepRelative, false);
-	mCursor->AttachToActor(this, rules);
+	//FAttachmentTransformRules rules = FAttachmentTransformRules(EAttachmentRule::KeepRelative, false);
+	//mCursor->AttachToActor(this, rules);
 
 }
 
@@ -267,7 +264,8 @@ void ALuckyCharacter::AltFire()
 
 void ALuckyCharacter::LookAtCursor()
 {
-	SetActorRotation((GetActorLocation() - mCursor->GetActorLocation()).Rotation());	
+	FRotator rot = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), mCursor->GetActorLocation());	
+	SetActorRotation(rot);
 }
 
 

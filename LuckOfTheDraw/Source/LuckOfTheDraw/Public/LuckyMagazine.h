@@ -26,16 +26,13 @@ public:
 	float maxAmmo = 6;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Magazine")
 	TArray<int> mag;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Magazine")
-		TArray<ALuckyProjectile*> pointerMag;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Magazine")
 	float barrelIndex = 0;
 
 	UFUNCTION(BlueprintCallable, Category = "Magazine")
 	LuckyProjectileType RollBarrel();//Returns chambered projectile, and increments barrelIndex
 	UFUNCTION(BlueprintCallable, Category = "Magazine")
-	LuckyProjectileType swapProjectile(int index, LuckyProjectileType newBullet);
+	LuckyProjectileType swapProjectile(int index, LuckyProjectileType newBullet);//Returns projectile swapped out
 	UFUNCTION(BlueprintCallable, Category = "Magazine")
 	ALuckyProjectile* shootProjectile(FVector loc, FRotator rot, APawn* charRef);//Returns the projectile just fired
 	UFUNCTION(BlueprintCallable, Category = "Magazine")

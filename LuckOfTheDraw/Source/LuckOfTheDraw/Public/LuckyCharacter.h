@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Kismet/KismetMathLibrary.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/Character.h"
@@ -73,20 +74,21 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	
 	//virgin blueprint functions for harry
+
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Character")
 	void doOverrideShoot();
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Character")
 	void doOverrideAltFire();
-	
+	UFUNCTION(BlueprintCallable, Category = "Character")
+	void Fire();
+	UFUNCTION(BlueprintCallable, Category = "Character")
+	void Reload();
+	UFUNCTION(BlueprintCallable, Category = "Character")
+	void AltFire();
 
 private:
 	float mDeltaTime = 0.0167;
 	float mCursorHeight = 50;
-
-	UFUNCTION(BlueprintCallable, Category = "Character")
-	void Fire();
-	UFUNCTION(BlueprintCallable, Category = "Character")
-	void AltFire();
 	
 	//gigachad functions harry will never see hahahahaha
 	void MoveForward(float value);
@@ -99,7 +101,6 @@ private:
 	void HandleAltFire(const FInputActionValue& value);
 	void HandleMove(const FInputActionValue& value);
 	void HandleLook(const FInputActionValue& value);
-	void Reload();
 	void LookAtCursor();
 	void InitMesh();
 	void InitCamera();

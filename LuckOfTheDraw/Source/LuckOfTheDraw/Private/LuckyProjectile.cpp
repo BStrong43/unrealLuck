@@ -29,7 +29,7 @@ void ALuckyProjectile::Tick(float DeltaTime)
 		doPath(DeltaTime);
 
 	timeAlive += DeltaTime;
-	if (timeAlive >= maxLifeTime) Destroy();
+	if (timeAlive >= mLifeTime || timeAlive >= maxLifeTime) Destroy();
 }
 
 void ALuckyProjectile::doPath(float DeltaTime)
@@ -52,7 +52,7 @@ void ALuckyProjectile::Init()
 	if (Mesh.Succeeded())
 	{
 		UMesh->SetStaticMesh(Mesh.Object);
-		UMesh->SetRelativeLocation(FVector(0.0, 0.0, -50.0));
-		UMesh->SetRelativeScale3D(FVector::OneVector * 0.45);
+		UMesh->SetRelativeLocation(FVector(0.0, 0.0, -30.0));
+		UMesh->SetRelativeScale3D(FVector::OneVector * 0.61);
 	}
 }

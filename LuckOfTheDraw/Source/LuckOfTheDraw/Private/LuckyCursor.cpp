@@ -41,6 +41,7 @@ void ALuckyCursor::TrackToMouse()
 
 void ALuckyCursor::Move(FVector value)
 {
+	value.Z = 88;
 	if (GetActorLocation().Length() < mBoundingBoxDiameter)
 		SetActorLocation(GetActorLocation() + value);
 	else
@@ -50,6 +51,7 @@ void ALuckyCursor::Move(FVector value)
 void ALuckyCursor::MoveX(float value)
 {
 	FVector mov = GetActorLocation() + (FVector::RightVector * value);
+	mov.Z = 88;
 	SetActorLocation(mov);
 
 	if (mov.X > mBoundingBoxDiameter)
@@ -59,6 +61,7 @@ void ALuckyCursor::MoveX(float value)
 void ALuckyCursor::MoveY(float value)
 {
 	FVector mov = GetActorLocation() + (FVector::ForwardVector * value);
+	mov.Z = 88;
 	SetActorLocation(mov);
 
 	if (mov.Y > mBoundingBoxDiameter)
