@@ -28,10 +28,11 @@ public:
 	void MoveX(float value);
 	void MoveY(float value);
 	void Move(FVector value);
+	//void SetHeight(float value);
 
 private:
 	void TrackToMouse();
 
-	float mBoundingBoxDiameter = 1000;
+	float mBoundingBoxDiameter = 25;
 
 };

@@ -60,13 +60,13 @@ void ULuckyMagazine::Reload()
 	barrelIndex = 0;
 }
 
-ALuckyProjectile* ULuckyMagazine::shootProjectile(FVector loc, FRotator rot)
+ALuckyProjectile* ULuckyMagazine::shootProjectile(FVector loc, FRotator rot, APawn* charRef)
 {
 	ALuckyProjectile* tmp = nullptr;
 	LuckyProjectileType inChamber = RollBarrel();
 
 	FActorSpawnParameters spawnParameters = FActorSpawnParameters();
-	spawnParameters.Instigator = nullptr; //Get reference to player pawn
+	spawnParameters.Instigator = charRef; //Get reference to player pawn
 	spawnParameters.Owner = GetOwner();
 
 	switch (inChamber)

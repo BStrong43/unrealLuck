@@ -39,8 +39,6 @@ void ALuckyProjectile::doPath(float DeltaTime)
 	SetActorLocation(loc + dist);
 }
 
-//void ALuckyProjectile::doOverridePath(float DeltaTime) {}
-
 void ALuckyProjectile::Init()
 {
 	USphere = CreateDefaultSubobject<USphereComponent>(TEXT("Ball"));

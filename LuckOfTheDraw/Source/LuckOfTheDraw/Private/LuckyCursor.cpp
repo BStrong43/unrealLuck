@@ -25,7 +25,6 @@ ALuckyCursor::ALuckyCursor()
 void ALuckyCursor::BeginPlay()
 {
 	Super::BeginPlay();
-	SetActorEnableCollision(false);
 }
 
 // Called every frame
@@ -50,16 +49,18 @@ void ALuckyCursor::Move(FVector value)
 
 void ALuckyCursor::MoveX(float value)
 {
-	if (GetActorLocation().Length() < mBoundingBoxDiameter)
-		SetActorLocation(GetActorLocation() + FVector::RightVector * value);
-	else
-		SetActorLocation(GetActorLocation() - value);
+	FVector mov = GetActorLocation() + (FVector::RightVector * value);
+	SetActorLocation(mov);
+
+	if (mov.X > mBoundingBoxDiameter)
+		mov.X = mBoundingBoxDiameter;
 }
 
 void ALuckyCursor::MoveY(float value)
 {
-	if (GetActorLocation().Length() <= mBoundingBoxDiameter)
-		SetActorLocation(GetActorLocation() + FVector::ForwardVector * value);
-	else
-		SetActorLocation(GetActorLocation() - value);
+	FVector mov = GetActorLocation() + (FVector::ForwardVector * value);
+	SetActorLocation(mov);
+
+	if (mov.Y > mBoundingBoxDiameter)
+		mov.Y = mBoundingBoxDiameter;
 }

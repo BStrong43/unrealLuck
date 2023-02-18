@@ -11,8 +11,11 @@ ALuckyCharacter::ALuckyCharacter()
 	InitMesh();
 	InitCamera();
 	InitGun();
+
+	mCursorHeight = GetActorLocation().Z;
 	
 	UMag = CreateDefaultSubobject<ULuckyMagazine>(TEXT("Magazine"));
+	
 }
 
 // Called when the game starts or when spawned
@@ -20,6 +23,7 @@ void ALuckyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	InitCursor();
+	
 }
 
 void ALuckyCharacter::InitMesh()
@@ -38,6 +42,7 @@ void ALuckyCharacter::InitMesh()
 
 void ALuckyCharacter::InitCamera()
 {
+	//FAttachmentTransformRules rules = FAttachmentTransformRules(EAttachmentRule::KeepRelative, EAttachmentRule::KeepWorld, EAttachmentRule::KeepRelative, false);
 	UCamBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("Camera Arm"));
 	UCamBoom-> SetupAttachment(RootComponent);
 	UCamBoom-> SetRelativeLocation(FVector(0.0, 0.0, 900.0));
@@ -45,6 +50,9 @@ void ALuckyCharacter::InitCamera()
 	UCamBoom-> TargetArmLength = 600.0f;
 	UCamBoom-> bEnableCameraLag = true;
 	UCamBoom-> CameraLagSpeed = 800.f;
+	//Lock Camera Rotation
+	UCamBoom->SetAbsolute(false, true, false);
+	
 
 	UCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	UCamera-> SetupAttachment(UCamBoom, USpringArmComponent::SocketName);
@@ -77,6 +85,10 @@ void ALuckyCharacter::InitCursor()
 	spawnParameters.Name = "Cursor";
 
 	mCursor = GetWorld()->SpawnActor<ALuckyCursor>(ALuckyCursor::StaticClass(), spawnParameters);
+	FVector loc = mCursor->GetActorLocation();
+	loc.Z = mCursorHeight;
+	mCursor->SetActorLocation(loc);
+	mCursor->SetActorEnableCollision(false);
 
 	FAttachmentTransformRules rules = FAttachmentTransformRules(EAttachmentRule::KeepRelative, false);
 	mCursor->AttachToActor(this, rules);
@@ -245,7 +257,7 @@ void ALuckyCharacter::CursorXY(FVector value)
 
 void ALuckyCharacter::Fire()
 {
-	UMag->shootProjectile(UGunBarrel->GetComponentLocation(), GetActorRotation());	
+	UMag->shootProjectile(UGunBarrel->GetComponentLocation(), GetActorRotation(), this);	
 }
 
 void ALuckyCharacter::AltFire()

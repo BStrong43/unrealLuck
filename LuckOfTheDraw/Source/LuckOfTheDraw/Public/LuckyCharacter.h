@@ -30,16 +30,16 @@ public:
 	UPROPERTY(VisibleAnywhere) UStaticMeshComponent* UMesh;
 	UPROPERTY(VisibleAnywhere) UStaticMeshComponent* UGunMesh;
 	UPROPERTY(VisibleAnywhere) USceneComponent* UGunBarrel;
-	UPROPERTY(VisibleAnywhere) UCameraComponent* UCamera;
-	UPROPERTY(VisibleAnywhere) USpringArmComponent* UCamBoom;
-	UPROPERTY(VisibleAnywhere) ULuckyMagazine* UMag;
+	UPROPERTY(EditAnywhere) UCameraComponent* UCamera;
+	UPROPERTY(EditAnywhere) USpringArmComponent* UCamBoom;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) ULuckyMagazine* UMag;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
-	float mHealth = 20;
+	float mHealth = 100;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
 	float mSpeed = 250;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
-	float mCursorSensitivity = 1000;
+	float mCursorSensitivity = 1500;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
 	bool mUseBPMovement = false;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
