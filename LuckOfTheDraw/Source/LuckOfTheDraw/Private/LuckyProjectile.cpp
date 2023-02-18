@@ -22,7 +22,11 @@ void ALuckyProjectile::BeginPlay()
 void ALuckyProjectile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	doPath(DeltaTime);
+
+	if (mOverridePath)
+		doOverridePath(DeltaTime);
+	else
+		doPath(DeltaTime);
 
 	timeAlive += DeltaTime;
 	if (timeAlive >= maxLifeTime) Destroy();
@@ -34,6 +38,8 @@ void ALuckyProjectile::doPath(float DeltaTime)
 	FVector dist = GetActorForwardVector() * (mSpeed * DeltaTime);
 	SetActorLocation(loc + dist);
 }
+
+//void ALuckyProjectile::doOverridePath(float DeltaTime) {}
 
 void ALuckyProjectile::Init()
 {

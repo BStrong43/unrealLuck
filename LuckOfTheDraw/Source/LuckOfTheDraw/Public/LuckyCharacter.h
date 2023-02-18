@@ -27,13 +27,6 @@ public:
 	// Sets default values for this character's properties
 	ALuckyCharacter();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
-	float mHealth = 20;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
-	float mSpeed = 250;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
-	float mCursorSensitivity = 1000;
-
 	UPROPERTY(VisibleAnywhere) UStaticMeshComponent* UMesh;
 	UPROPERTY(VisibleAnywhere) UStaticMeshComponent* UGunMesh;
 	UPROPERTY(VisibleAnywhere) USceneComponent* UGunBarrel;
@@ -41,20 +34,30 @@ public:
 	UPROPERTY(VisibleAnywhere) USpringArmComponent* UCamBoom;
 	UPROPERTY(VisibleAnywhere) ULuckyMagazine* UMag;
 
-	//TODO: Figure out Enhanced Input
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
+	float mHealth = 20;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
+	float mSpeed = 250;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
+	float mCursorSensitivity = 1000;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
 	bool mUseBPMovement = false;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
+	bool mOverrideFire = false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
+	bool mOverrideAltFire = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
 	UInputMappingContext* MappingContext;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
 	UInputAction* MoveAction;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
 	UInputAction* LookAction;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
 	UInputAction* ShootAction;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
 	UInputAction* AltFireAction;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
 	UInputAction* ReloadAction;
 
 
@@ -69,22 +72,21 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	
+	//virgin blueprint functions for harry
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Character")
+	void doOverrideShoot();
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Character")
+	void doOverrideAltFire();
+	
 
 private:
 	float mDeltaTime = 0.0167;
 	float mCursorHeight = 50;
 
-	//virgin blueprint functions for harry
-	UFUNCTION(BlueprintCallable, Category = "Weapon")
-	void OnHandleShoot(const FInputActionValue& value);
-	UFUNCTION(BlueprintCallable, Category = "Weapon")
-	void OnHandleReload(const FInputActionValue& value);
-	UFUNCTION(BlueprintCallable, Category = "Weapon")
-	void OnHandleAltFire(const FInputActionValue& value);
 	UFUNCTION(BlueprintCallable, Category = "Character")
-	void OnHandleMove(const FInputActionValue& value);
+	void Fire();
 	UFUNCTION(BlueprintCallable, Category = "Character")
-	void OnHandleLook(const FInputActionValue& value);
+	void AltFire();
 	
 	//gigachad functions harry will never see hahahahaha
 	void MoveForward(float value);
@@ -92,8 +94,11 @@ private:
 	void CursorX(float value);
 	void CursorY(float value);
 	void CursorXY(FVector value);
-	void Fire();
-	void AltFire();
+	void HandleShoot(const FInputActionValue& value);
+	void HandleReload(const FInputActionValue& value);
+	void HandleAltFire(const FInputActionValue& value);
+	void HandleMove(const FInputActionValue& value);
+	void HandleLook(const FInputActionValue& value);
 	void Reload();
 	void LookAtCursor();
 	void InitMesh();

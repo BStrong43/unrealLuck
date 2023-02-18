@@ -7,6 +7,12 @@
 #include "GameFramework/Actor.h"
 #include "LuckyProjectile.generated.h"
 
+UENUM(BlueprintType)
+enum LuckyProjectileType : int
+{
+	STANDARD = 0
+};
+
 UCLASS()
 class LUCKOFTHEDRAW_API ALuckyProjectile : public AActor
 {
@@ -20,12 +26,15 @@ public:
 	UPROPERTY(VisibleAnywhere) UStaticMeshComponent* UMesh;
 	UPROPERTY(VisibleAnywhere) USphereComponent* USphere;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Projectile Movement")
 	float mSpeed = 500;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Projectile Movement")
 	float mLifeTime = 20;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Projectile Movement")
+	bool mOverridePath = false;
 	
-	UFUNCTION(BlueprintCallable, Category = "Movement")
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Projectile Movement")
+	void doOverridePath(float DeltaTime);
 	void doPath(float DeltaTime);
 
 protected:

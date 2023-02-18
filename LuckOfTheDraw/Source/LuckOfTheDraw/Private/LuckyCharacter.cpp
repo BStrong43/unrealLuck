@@ -102,27 +102,27 @@ void ALuckyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 4.f, FColor::Cyan, "Enhanced Input Loaded");
 			if (ShootAction)
-				PlayerEnhancedInputComponent->BindAction(ShootAction, ETriggerEvent::Triggered, this, &ALuckyCharacter::OnHandleShoot);
+				PlayerEnhancedInputComponent->BindAction(ShootAction, ETriggerEvent::Triggered, this, &ALuckyCharacter::HandleShoot);
 			else
 				GEngine->AddOnScreenDebugMessage(-1, 4.f, FColor::Cyan, "No Shoot Action Detected");
 
 			if (AltFireAction)
-				PlayerEnhancedInputComponent->BindAction(AltFireAction, ETriggerEvent::Triggered, this, &ALuckyCharacter::OnHandleAltFire);
+				PlayerEnhancedInputComponent->BindAction(AltFireAction, ETriggerEvent::Triggered, this, &ALuckyCharacter::HandleAltFire);
 			else
 				GEngine->AddOnScreenDebugMessage(-1, 4.f, FColor::Cyan, "No Alt Fire Action Detected");
 
 			if (ReloadAction)
-				PlayerEnhancedInputComponent->BindAction(ReloadAction, ETriggerEvent::Triggered, this, &ALuckyCharacter::OnHandleReload);
+				PlayerEnhancedInputComponent->BindAction(ReloadAction, ETriggerEvent::Triggered, this, &ALuckyCharacter::HandleReload);
 			else
 				GEngine->AddOnScreenDebugMessage(-1, 4.f, FColor::Cyan, "No Reload Action Detected");
 
 			if (LookAction)
-				PlayerEnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Started, this, &ALuckyCharacter::OnHandleLook);
+				PlayerEnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Started, this, &ALuckyCharacter::HandleLook);
 			else
 				GEngine->AddOnScreenDebugMessage(-1, 4.f, FColor::Cyan, "No Look Action Detected");
 
 			if (MoveAction)
-				PlayerEnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Started, this, &ALuckyCharacter::OnHandleMove);
+				PlayerEnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Started, this, &ALuckyCharacter::HandleMove);
 			else
 				GEngine->AddOnScreenDebugMessage(-1, 4.f, FColor::Cyan, "No Move Action Detected");
 		}
@@ -165,7 +165,7 @@ void ALuckyCharacter::PawnClientRestart()
 	}
 }
 
-void ALuckyCharacter::OnHandleMove(const FInputActionValue& value)
+void ALuckyCharacter::HandleMove(const FInputActionValue& value)
 {
 	if (value.GetMagnitudeSq() != 0.0f)
 	{
@@ -173,7 +173,7 @@ void ALuckyCharacter::OnHandleMove(const FInputActionValue& value)
 		AddMovementInput(FVector::ForwardVector, value[0] * mSpeed, false);
 	}
 }
-void ALuckyCharacter::OnHandleLook(const FInputActionValue& value)
+void ALuckyCharacter::HandleLook(const FInputActionValue& value)
 {
 	if (value.GetMagnitudeSq() != 0)
 	{
@@ -186,26 +186,25 @@ void ALuckyCharacter::OnHandleLook(const FInputActionValue& value)
 	}
 }
 
-void ALuckyCharacter::OnHandleAltFire(const FInputActionValue& value)
+void ALuckyCharacter::HandleAltFire(const FInputActionValue& value)
 {
-
+	if (mOverrideAltFire)
+		doOverrideAltFire();
+	else
+		AltFire();
 }
 
-void ALuckyCharacter::OnHandleReload(const FInputActionValue& value)
+void ALuckyCharacter::HandleReload(const FInputActionValue& value)
 {
-
+	Reload();
 }
 
-void ALuckyCharacter::OnHandleShoot(const FInputActionValue& value)
+void ALuckyCharacter::HandleShoot(const FInputActionValue& value)
 {
-	FActorSpawnParameters spawnParameters = FActorSpawnParameters();
-	spawnParameters.Instigator = this;
-	spawnParameters.Owner = NULL;
-	
-	mProj = GetWorld()->SpawnActor<ALuckyProjectile>(ALuckyProjectile::StaticClass(), spawnParameters);
-	mProj->SetActorLocationAndRotation(UGunBarrel->GetComponentLocation(), GetActorRotation());
-	
-	mProj = nullptr;
+	if (mOverrideFire)
+		doOverrideShoot();
+	else
+		Fire();
 }
 
 void ALuckyCharacter::MoveForward(float value) 
@@ -246,13 +245,7 @@ void ALuckyCharacter::CursorXY(FVector value)
 
 void ALuckyCharacter::Fire()
 {
-	FActorSpawnParameters spawnParameters = FActorSpawnParameters();
-	spawnParameters.Instigator = this;
-	spawnParameters.Owner = NULL;
-
-	mProj = GetWorld()->SpawnActor<ALuckyProjectile>(ALuckyProjectile::StaticClass(), spawnParameters);
-	mProj->SetActorLocationAndRotation(UGunBarrel->GetComponentLocation(), GetActorRotation());
-	mProj = nullptr;
+	UMag->shootProjectile(UGunBarrel->GetComponentLocation(), GetActorRotation());	
 }
 
 void ALuckyCharacter::AltFire()
@@ -262,10 +255,7 @@ void ALuckyCharacter::AltFire()
 
 void ALuckyCharacter::LookAtCursor()
 {
-	//TO DO
-	//Make Cursor Actor
-	//Force rotation to cursor object
-
+	SetActorRotation((GetActorLocation() - mCursor->GetActorLocation()).Rotation());	
 }
 
 
