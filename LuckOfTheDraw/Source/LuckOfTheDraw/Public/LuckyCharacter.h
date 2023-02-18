@@ -40,7 +40,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
 	float mSpeed = 250;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
-	float mCursorSensitivity = 1500;
+	float mCursorSensitivity = 2500;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
 	bool mUseBPMovement = false;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")

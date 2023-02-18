@@ -23,8 +23,8 @@ public:
 	ALuckyProjectile();
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(VisibleAnywhere) UStaticMeshComponent* UMesh;
-	UPROPERTY(VisibleAnywhere) USphereComponent* USphere;
+	UPROPERTY(EditAnywhere) UStaticMeshComponent* UMesh;
+	UPROPERTY(EditAnywhere) USphereComponent* USphere;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Projectile Movement")
 	float mSpeed = 500;
