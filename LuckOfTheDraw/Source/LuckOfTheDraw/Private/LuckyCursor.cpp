@@ -60,6 +60,7 @@ void ALuckyCursor::MoveX(float value)
 
 void ALuckyCursor::MoveY(float value)
 {
+	value *= 1.6;
 	FVector mov = GetActorLocation() + (FVector::ForwardVector * value);
 	mov.Z = 88;
 	SetActorLocation(mov);
