@@ -29,6 +29,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Magazine")
 	float barrelIndex = 0;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Magazine")
+		TArray<ALuckyProjectile*> magO;
+
 	UFUNCTION(BlueprintCallable, Category = "Magazine")
 	LuckyProjectileType RollBarrel();//Returns chambered projectile, and increments barrelIndex
 	UFUNCTION(BlueprintCallable, Category = "Magazine")

@@ -15,7 +15,7 @@ ALuckyProjectile::ALuckyProjectile()
 void ALuckyProjectile::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	doBuff();
 }
 
 // Called every frame

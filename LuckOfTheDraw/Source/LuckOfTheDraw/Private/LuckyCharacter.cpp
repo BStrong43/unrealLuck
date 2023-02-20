@@ -39,7 +39,6 @@ void ALuckyCharacter::InitMesh()
 
 void ALuckyCharacter::InitCamera()
 {
-	//FAttachmentTransformRules rules = FAttachmentTransformRules(EAttachmentRule::KeepRelative, EAttachmentRule::KeepWorld, EAttachmentRule::KeepRelative, false);
 	UCamBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("Camera Arm"));
 	UCamBoom-> SetupAttachment(RootComponent);
 	UCamBoom-> SetRelativeLocation(FVector(0.0, 0.0, 900.0));
@@ -49,7 +48,6 @@ void ALuckyCharacter::InitCamera()
 	UCamBoom-> CameraLagSpeed = 800.f;
 	//Lock Camera Rotation
 	UCamBoom->SetAbsolute(false, true, false);
-	
 
 	UCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	UCamera-> SetupAttachment(UCamBoom, USpringArmComponent::SocketName);
@@ -87,8 +85,8 @@ void ALuckyCharacter::InitCursor()
 	mCursor->SetActorLocation(loc);
 	mCursor->SetActorEnableCollision(false);
 
-	//FAttachmentTransformRules rules = FAttachmentTransformRules(EAttachmentRule::KeepRelative, false);
-	//mCursor->AttachToActor(this, rules);
+	FAttachmentTransformRules rules = FAttachmentTransformRules(EAttachmentRule::KeepRelative, EAttachmentRule::KeepWorld, EAttachmentRule::KeepRelative, false);
+	mCursor->AttachToActor(this, rules);
 
 }
 

@@ -60,7 +60,7 @@ void ULuckyMagazine::Reload()
 	barrelIndex = 0;
 }
 
-ALuckyProjectile* ULuckyMagazine::shootProjectile(FVector loc, FRotator rot, APawn* charRef)
+ALuckyProjectile* ULuckyMagazine::shootProjectile(FVector loc, FRotator rot, APawn* charRef = nullptr)
 {
 	ALuckyProjectile* tmp = nullptr;
 	LuckyProjectileType inChamber = RollBarrel();

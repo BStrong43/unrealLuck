@@ -10,7 +10,9 @@
 UENUM(BlueprintType)
 enum LuckyProjectileType : int
 {
-	STANDARD = 0
+	STANDARD = 0,
+	BOMB,
+	FIREBALL
 };
 
 UCLASS()
@@ -33,6 +35,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Projectile Movement")
 	bool mOverridePath = false;
 	
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Projectile Movement")
+	void doBuff();
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Projectile Movement")
 	void doOverridePath(float DeltaTime);
 	void doPath(float DeltaTime);
