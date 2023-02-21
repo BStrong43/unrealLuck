@@ -95,6 +95,7 @@ private:
 	void MoveRight(float value);
 	void CursorX(float value);
 	void CursorY(float value);
+	void MoveYCursor(float value);
 	void CursorXY(FVector value);
 	void HandleShoot(const FInputActionValue& value);
 	void HandleReload(const FInputActionValue& value);

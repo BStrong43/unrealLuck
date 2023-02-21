@@ -6,6 +6,7 @@
 #include "GameFramework/Pawn.h"
 #include "Components/CapsuleComponent.h"
 #include "LuckyMagazine.h"
+#include "LEMovement.h"
 //#include "LuckyProjectile.h"
 #include "LuckyEnemy.generated.h"
 
@@ -24,18 +25,28 @@ public:
 	UPROPERTY(EditAnywhere) UCapsuleComponent* UCapsule;
 	UPROPERTY(EditAnywhere) USceneComponent* UGunBarrel;
 	UPROPERTY(EditAnywhere) ULuckyMagazine* UMag;
+	UPROPERTY(EditAnywhere) ULEMovement* UMove;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy")
 	float mHealth = 100;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy")
-	bool mIsChasing = true;
+	float mShootTimer = 5;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy")
 	APawn* mTarget;
 
 	UFUNCTION(BlueprintCallable, Category = "Enemy")
-	float TakeDamage (float dmg);
+	void startShootTimer();
+
+	UFUNCTION(BlueprintCallable, Category = "Enemy")
+	void stopShootTimer();
+
+	UFUNCTION(BlueprintCallable, Category = "Enemy")
+	float EnemyTakeDamage (float dmg);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Enemy")
+	void DoPath();
 
 	UFUNCTION(BlueprintCallable, Category = "Enemy")
 	ALuckyProjectile* Shoot();
@@ -47,4 +58,8 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+private:
+	bool doShootTimer;
+	float shootTime;
 };

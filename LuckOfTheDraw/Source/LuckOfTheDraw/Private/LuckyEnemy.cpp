@@ -27,6 +27,11 @@ ALuckyEnemy::ALuckyEnemy()
 		UMesh->SetRelativeLocation(FVector(0.0, 0.0, -90.0));
 		UMesh->SetRelativeScale3D(FVector(1.36, 1.36, 1.778));
 	}
+
+	UMove = CreateDefaultSubobject<ULEMovement>(TEXT("Movement"));
+	UMove->UpdatedComponent = RootComponent;
+
+	shootTime = mShootTimer;
 }
 
 // Called when the game starts or when spawned
@@ -41,7 +46,7 @@ void ALuckyEnemy::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-float ALuckyEnemy::TakeDamage(float dmg)
+float ALuckyEnemy::EnemyTakeDamage(float dmg)
 {
 	float newHealth = mHealth - dmg;
 	Destroy();
@@ -51,5 +56,15 @@ float ALuckyEnemy::TakeDamage(float dmg)
 ALuckyProjectile* ALuckyEnemy::Shoot() 
 {
 	return UMag->shootProjectile(UGunBarrel->GetComponentLocation(), GetActorRotation(), this);
+
+}
+
+void ALuckyEnemy::startShootTimer()
+{
+
+}
+
+void ALuckyEnemy::stopShootTimer()
+{
 
 }

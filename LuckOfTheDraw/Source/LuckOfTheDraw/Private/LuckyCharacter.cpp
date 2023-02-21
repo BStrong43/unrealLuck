@@ -85,9 +85,8 @@ void ALuckyCharacter::InitCursor()
 	mCursor->SetActorLocation(loc);
 	mCursor->SetActorEnableCollision(false);
 
-	FAttachmentTransformRules rules = FAttachmentTransformRules(EAttachmentRule::KeepRelative, EAttachmentRule::KeepWorld, EAttachmentRule::KeepRelative, false);
+	FAttachmentTransformRules rules = FAttachmentTransformRules(EAttachmentRule::KeepWorld, EAttachmentRule::KeepWorld, EAttachmentRule::KeepRelative, false);
 	mCursor->AttachToActor(this, rules);
-
 }
 
 // Called every frame
@@ -220,6 +219,7 @@ void ALuckyCharacter::MoveForward(float value)
 	moveVector *= mSpeed * value;
 	FVector location = GetActorLocation() + (moveVector * mDeltaTime);
 	SetActorLocation(location, true);
+	MoveYCursor(value);
 }
 
 void ALuckyCharacter::MoveRight(float value) 
@@ -228,6 +228,7 @@ void ALuckyCharacter::MoveRight(float value)
 	moveVector *= mSpeed * value;
 	FVector location = GetActorLocation() + (moveVector * mDeltaTime);
 	SetActorLocation(location, true);
+	CursorX(value);
 }
 
 void ALuckyCharacter::Reload()
@@ -240,9 +241,14 @@ void ALuckyCharacter::CursorX(float value)
 	mCursor->MoveX(value);
 }
 
-void ALuckyCharacter::CursorY(float value)
+void ALuckyCharacter::MoveYCursor(float value)
 {
 	mCursor->MoveY(value);
+}
+
+void ALuckyCharacter::CursorY(float value)
+{
+	mCursor->MoveY(value * 1.6);
 }
 
 void ALuckyCharacter::CursorXY(FVector value)

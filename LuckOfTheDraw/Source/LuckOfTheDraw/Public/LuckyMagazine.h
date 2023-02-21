@@ -30,7 +30,7 @@ public:
 	float barrelIndex = 0;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Magazine")
-		TArray<ALuckyProjectile*> magO;
+	TArray<ALuckyProjectile*> magO;
 
 	UFUNCTION(BlueprintCallable, Category = "Magazine")
 	LuckyProjectileType RollBarrel();//Returns chambered projectile, and increments barrelIndex
