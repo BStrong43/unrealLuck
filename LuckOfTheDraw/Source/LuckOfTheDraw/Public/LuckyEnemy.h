@@ -48,6 +48,9 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = "Enemy")
 	void DoPath();
 
+	UFUNCTION(BlueprintImplementableEvent, Category = "Enemy")
+	void OnDeath();
+
 	UFUNCTION(BlueprintCallable, Category = "Enemy")
 	ALuckyProjectile* Shoot();
 
@@ -60,6 +63,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 private:
-	bool doShootTimer;
-	float shootTime;
+	ALuckyProjectile* lastShot;
+	bool doShootTimer = true;
+	float shootTime = 5;
 };

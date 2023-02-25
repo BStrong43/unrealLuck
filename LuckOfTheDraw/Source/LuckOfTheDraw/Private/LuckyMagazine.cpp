@@ -25,6 +25,11 @@ LuckyProjectileType ULuckyMagazine::swapProjectile(int index, LuckyProjectileTyp
 	return tmp;
 }
 
+void ULuckyMagazine::addProjectile(int newBullet)
+{
+	mag.Add(newBullet);
+}
+
 void ULuckyMagazine::addProjectile(LuckyProjectileType newBullet)
 {
 	mag.Add(newBullet);
@@ -33,7 +38,7 @@ void ULuckyMagazine::addProjectile(LuckyProjectileType newBullet)
 // Called when the game starts
 void ULuckyMagazine::BeginPlay()
 {
-	Super::BeginPlay();	
+	Super::BeginPlay();
 }
 
 LuckyProjectileType ULuckyMagazine::RollBarrel()
@@ -79,4 +84,24 @@ ALuckyProjectile* ULuckyMagazine::shootProjectile(FVector loc, FRotator rot, APa
 	}
 
 	return tmp;
+}
+
+void ULuckyMagazine::setHand(TArray<int> newMag, bool overrideMax = false)
+{
+	if (overrideMax)
+	{
+		mag = newMag;
+		maxAmmo = newMag.Num();
+		return;
+	}
+	else
+	{
+		for (int i = 0; i < newMag.Num(); i++)
+		{
+			if (mag.IsValidIndex(i))
+				mag[i] = newMag[i];
+			else
+				break;
+		}
+	}
 }

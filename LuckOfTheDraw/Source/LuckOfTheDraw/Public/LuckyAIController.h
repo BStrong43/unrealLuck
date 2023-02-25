@@ -5,12 +5,21 @@
 #include "CoreMinimal.h"
 #include "LuckyEnemy.h"
 #include "Kismet/GameplayStatics.h"
+#include "Navigation/PathFollowingComponent.h"
 #include "AIController.h"
 #include "LuckyAIController.generated.h"
 
 /**
  * 
  */
+
+UENUM(BlueprintType)
+enum class EAIPathingType : uint8 
+{
+	EStraightLine = 0,
+	EAStar
+};
+
 UCLASS()
 class LUCKOFTHEDRAW_API ALuckyAIController : public AAIController
 {
@@ -18,6 +27,9 @@ class LUCKOFTHEDRAW_API ALuckyAIController : public AAIController
 
 public:
 	ALuckyAIController();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LuckyController")
+	UPathFollowingComponent* UPath;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LuckyController")
 	TArray<ALuckyEnemy*> mAllies;
@@ -39,9 +51,11 @@ protected:
 	virtual void Tick(float DeltaTime) override;
 	virtual void OnPossess(APawn* InPawn) override;
 
+	void doPath();
+
 private:
 	ALuckyEnemy* mSelf;
-	bool pathActive = false;
+	bool active = false;
 	APawn* mTarget;
 	FVector mDestination;
 };

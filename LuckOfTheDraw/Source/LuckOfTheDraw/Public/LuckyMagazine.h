@@ -9,7 +9,7 @@
 #include "LuckyMagazine.generated.h"
 
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS( ClassGroup=(Custom), BlueprintType, meta=(BlueprintSpawnableComponent) )
 class LUCKOFTHEDRAW_API ULuckyMagazine : public UActorComponent
 {
 	GENERATED_BODY()
@@ -29,9 +29,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Magazine")
 	float barrelIndex = 0;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Magazine")
-	TArray<ALuckyProjectile*> magO;
-
 	UFUNCTION(BlueprintCallable, Category = "Magazine")
 	LuckyProjectileType RollBarrel();//Returns chambered projectile, and increments barrelIndex
 	UFUNCTION(BlueprintCallable, Category = "Magazine")
@@ -40,10 +37,13 @@ public:
 	ALuckyProjectile* shootProjectile(FVector loc, FRotator rot, APawn* charRef);//Returns the projectile just fired
 	UFUNCTION(BlueprintCallable, Category = "Magazine")
 	void addProjectile(LuckyProjectileType newBullet);
-
+	UFUNCTION(BlueprintCallable, Category = "Magazine")
+	void setHand(TArray<int> newMag, bool overrideMax);
 
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
+private:
+	void addProjectile(int newBullet);
 };

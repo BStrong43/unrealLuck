@@ -5,10 +5,10 @@
 
 ALuckyAIController::ALuckyAIController()
 {
-	
-
 	TArray<AActor*> allies;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ALuckyEnemy::StaticClass(), allies);
+
+	
 }
 
 void ALuckyAIController::BeginPlay()
@@ -24,15 +24,20 @@ void ALuckyAIController::OnPossess(APawn* InPawn)
 
 void ALuckyAIController::Tick(float DeltaTime)
 {
-	if (pathActive)
+	if (active)
 	{
 
 	}
 }
 
+void ALuckyAIController::doPath()
+{
+
+}
+
 void ALuckyAIController::startShootTimer()
 {
-	//ALuckyEnemy*
+	
 }
 
 void ALuckyAIController::stopShootTimer()

@@ -8,11 +8,12 @@ ALuckyCharacter::ALuckyCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	UMag = CreateDefaultSubobject<ULuckyMagazine>(TEXT("Magazine"));
+	AddOwnedComponent(UMag);
 	InitMesh();
 	InitCamera();
 	InitGun();
-	mCursorHeight = 88;
-	UMag = CreateDefaultSubobject<ULuckyMagazine>(TEXT("Magazine"));
+	mCursorHeight = 88;	
 }
 
 // Called when the game starts or when spawned
@@ -20,7 +21,6 @@ void ALuckyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	InitCursor();
-	
 }
 
 void ALuckyCharacter::InitMesh()
@@ -85,8 +85,8 @@ void ALuckyCharacter::InitCursor()
 	mCursor->SetActorLocation(loc);
 	mCursor->SetActorEnableCollision(false);
 
-	FAttachmentTransformRules rules = FAttachmentTransformRules(EAttachmentRule::KeepWorld, EAttachmentRule::KeepWorld, EAttachmentRule::KeepRelative, false);
-	mCursor->AttachToActor(this, rules);
+	//FAttachmentTransformRules rules = FAttachmentTransformRules(EAttachmentRule::KeepWorld, EAttachmentRule::KeepWorld, EAttachmentRule::KeepRelative, false);
+	//mCursor->AttachToActor(this, rules);
 }
 
 // Called every frame

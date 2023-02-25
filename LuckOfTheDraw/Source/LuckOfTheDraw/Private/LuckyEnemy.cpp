@@ -30,41 +30,53 @@ ALuckyEnemy::ALuckyEnemy()
 
 	UMove = CreateDefaultSubobject<ULEMovement>(TEXT("Movement"));
 	UMove->UpdatedComponent = RootComponent;
-
-	shootTime = mShootTimer;
 }
 
 // Called when the game starts or when spawned
 void ALuckyEnemy::BeginPlay()
 {
 	Super::BeginPlay();
+	shootTime = mShootTimer;
 }
 
 // Called every frame
 void ALuckyEnemy::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if (doShootTimer)
+	{
+		mShootTimer -= DeltaTime;
+
+		if (mShootTimer <= 0)
+		{
+			lastShot = Shoot();
+			mShootTimer = shootTime;
+		}
+	}
 }
 
 float ALuckyEnemy::EnemyTakeDamage(float dmg)
 {
-	float newHealth = mHealth - dmg;
-	Destroy();
-	return newHealth;
+	mHealth -= dmg;
+	if (mHealth <= 0) 
+	{
+		OnDeath();
+	}
+	return mHealth;
 }
 
 ALuckyProjectile* ALuckyEnemy::Shoot() 
 {
 	return UMag->shootProjectile(UGunBarrel->GetComponentLocation(), GetActorRotation(), this);
-
 }
 
 void ALuckyEnemy::startShootTimer()
 {
-
+	doShootTimer = true;
 }
 
 void ALuckyEnemy::stopShootTimer()
 {
-
+	doShootTimer = false;
 }
