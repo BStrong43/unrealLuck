@@ -13,13 +13,6 @@
  * 
  */
 
-UENUM(BlueprintType)
-enum class EAIPathingType : uint8 
-{
-	EStraightLine = 0,
-	EAStar
-};
-
 UCLASS()
 class LUCKOFTHEDRAW_API ALuckyAIController : public AAIController
 {
@@ -28,34 +21,38 @@ class LUCKOFTHEDRAW_API ALuckyAIController : public AAIController
 public:
 	ALuckyAIController();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LuckyController")
-	UPathFollowingComponent* UPath;
+	UFUNCTION(BlueprintCallable, Category = "Lucky AI Controller")
+	void SetDestToActor(AActor* inActor);
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LuckyController")
-	TArray<ALuckyEnemy*> mAllies;
+	UFUNCTION(BlueprintCallable, Category = "Lucky AI Controller")
+	void SetDestination(FVector loc);
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LuckyController")
-	float mSpeed = 75;
+	UFUNCTION(BlueprintImplementableEvent, Category = "Lucky AI Controller")
+	void ActiveTick(float DeltaTime);
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LuckyController")
-	float mShootTimer = 3;
+	UFUNCTION(BlueprintImplementableEvent, Category = "Lucky AI Controller")
+	void OnPathingTick();
 
-	UFUNCTION(BlueprintCallable, Category = "LuckyController")
-	void startShootTimer();
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Lucky AI Controller")
+	ALuckyEnemy* mEnemySelf;
 
-	UFUNCTION(BlueprintCallable, Category = "LuckyController")
-	void stopShootTimer();
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Lucky AI Controller")
+	FVector mTarget;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Lucky AI Controller")
+	float mTermRadius = 500;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Lucky AI Controller")
+	float pathingUpdateTimer = 5;
+
+	UPROPERTY(EditAnywhere, Category = "Lucky AI Controller")
+	bool active = true;
 
 protected:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 	virtual void OnPossess(APawn* InPawn) override;
 
-	void doPath();
-
 private:
-	ALuckyEnemy* mSelf;
-	bool active = false;
-	APawn* mTarget;
-	FVector mDestination;
+	float mPathtime = 5;
 };

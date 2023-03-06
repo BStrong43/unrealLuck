@@ -28,8 +28,8 @@ ALuckyEnemy::ALuckyEnemy()
 		UMesh->SetRelativeScale3D(FVector(1.36, 1.36, 1.778));
 	}
 
-	UMove = CreateDefaultSubobject<ULEMovement>(TEXT("Movement"));
-	UMove->UpdatedComponent = RootComponent;
+	//UMove = CreateDefaultSubobject<ULEMovement>(TEXT("Movement"));
+	//UMove->UpdatedComponent = RootComponent;
 }
 
 // Called when the game starts or when spawned
@@ -37,6 +37,7 @@ void ALuckyEnemy::BeginPlay()
 {
 	Super::BeginPlay();
 	shootTime = mShootTimer;
+	startShootTimer();
 }
 
 // Called every frame
@@ -51,9 +52,21 @@ void ALuckyEnemy::Tick(float DeltaTime)
 		if (mShootTimer <= 0)
 		{
 			lastShot = Shoot();
+			OnShoot(lastShot);
 			mShootTimer = shootTime;
 		}
 	}
+}
+
+float ALuckyEnemy::TakeDamage(
+	float DamageAmount,
+	struct FDamageEvent const& DamageEvent,
+	AController* EventInstigator,
+	AActor* DamageCauser)
+{
+	EnemyTakeDamage(DamageAmount);
+	OnTakeDamage(DamageCauser, DamageAmount);
+	return mHealth;
 }
 
 float ALuckyEnemy::EnemyTakeDamage(float dmg)

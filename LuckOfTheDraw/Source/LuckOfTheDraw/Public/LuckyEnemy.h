@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Pawn.h"
+#include "GameFramework/Character.h"
 #include "Components/CapsuleComponent.h"
 #include "LuckyMagazine.h"
 #include "LEMovement.h"
@@ -13,7 +13,7 @@
 class ALuckyProjectile;
 
 UCLASS()
-class LUCKOFTHEDRAW_API ALuckyEnemy : public APawn
+class LUCKOFTHEDRAW_API ALuckyEnemy : public ACharacter
 {
 	GENERATED_BODY()
 
@@ -25,7 +25,7 @@ public:
 	UPROPERTY(EditAnywhere) UCapsuleComponent* UCapsule;
 	UPROPERTY(EditAnywhere) USceneComponent* UGunBarrel;
 	UPROPERTY(EditAnywhere) ULuckyMagazine* UMag;
-	UPROPERTY(EditAnywhere) ULEMovement* UMove;
+	//UPROPERTY(EditAnywhere) ULEMovement* UMove;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy")
 	float mHealth = 100;
@@ -33,23 +33,20 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy")
 	float mShootTimer = 5;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy")
-	APawn* mTarget;
-
 	UFUNCTION(BlueprintCallable, Category = "Enemy")
 	void startShootTimer();
 
 	UFUNCTION(BlueprintCallable, Category = "Enemy")
 	void stopShootTimer();
 
-	UFUNCTION(BlueprintCallable, Category = "Enemy")
-	float EnemyTakeDamage (float dmg);
+	UFUNCTION(BlueprintImplementableEvent, Category = "Enemy")
+	void OnTakeDamage(AActor* DamageCauser, float damageAmount);//Event triggered when this enemy gets shot
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Enemy")
-	void DoPath();
+	void OnDeath();//Event triggered when this enemy dies
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Enemy")
-	void OnDeath();
+	void OnShoot(ALuckyProjectile* shot);//Event triggered when this enemy shoots
 
 	UFUNCTION(BlueprintCallable, Category = "Enemy")
 	ALuckyProjectile* Shoot();
@@ -57,12 +54,19 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-public:	
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	virtual float TakeDamage
+	(
+		float DamageAmount,
+		struct FDamageEvent const& DamageEvent,
+		AController* EventInstigator,
+		AActor* DamageCauser
+	) override;
+
 
 private:
+	float EnemyTakeDamage(float dmg);
+
 	ALuckyProjectile* lastShot;
 	bool doShootTimer = true;
 	float shootTime = 5;

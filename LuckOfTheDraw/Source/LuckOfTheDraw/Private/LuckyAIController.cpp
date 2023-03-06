@@ -5,42 +5,43 @@
 
 ALuckyAIController::ALuckyAIController()
 {
-	TArray<AActor*> allies;
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ALuckyEnemy::StaticClass(), allies);
-
 	
 }
 
 void ALuckyAIController::BeginPlay()
 {
 	Super::BeginPlay();
+	mPathtime = pathingUpdateTimer;
 }
 
 void ALuckyAIController::OnPossess(APawn* InPawn)
 {
 	Super::OnPossess(InPawn);
-	mSelf = Cast<ALuckyEnemy>(InPawn);
+	mEnemySelf = Cast<ALuckyEnemy>(InPawn);
+	UE_LOG(LogTemp, Display, TEXT("Pawn Possessed"));
 }
 
 void ALuckyAIController::Tick(float DeltaTime)
 {
 	if (active)
 	{
-
+		ActiveTick(DeltaTime);
+		
+		pathingUpdateTimer -= DeltaTime;
+		if (pathingUpdateTimer <= 0)
+		{
+			OnPathingTick();
+			pathingUpdateTimer = mPathtime;
+		}
 	}
 }
 
-void ALuckyAIController::doPath()
+void ALuckyAIController::SetDestination(FVector loc)
 {
-
+	mTarget = loc;
 }
 
-void ALuckyAIController::startShootTimer()
+void ALuckyAIController::SetDestToActor(AActor* inActor)
 {
-	
-}
-
-void ALuckyAIController::stopShootTimer()
-{
-
+	SetDestination(inActor->GetActorLocation());
 }
